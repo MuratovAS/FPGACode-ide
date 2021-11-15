@@ -1,0 +1,64 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Container: make",
+            "type": "shell",
+            "command": ".vscode/container.sh",
+            "args": [
+                "make"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Container: make sim",
+            "type": "shell",
+            "command": ".vscode/container.sh",
+            "args": [
+                "make",
+                "sim"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Container: make flash",
+            "type": "shell",
+            "command": ".vscode/container.sh",
+            "args": [
+                "make",
+                "flash"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Container: make prog",
+            "type": "shell",
+            "command": ".vscode/container.sh",
+            "args": [
+                "make",
+                "prog"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Container: make clean",
+            "type": "shell",
+            "command": ".vscode/container.sh",
+            "args": [
+                "make",
+                "clean"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Container: make formatter",
+            "type": "shell",
+            "command": ".vscode/container.sh",
+            "args": [
+                "make",
+                "formatter"
+            ],
+            "problemMatcher": []
+        },
+    ]
+  }
