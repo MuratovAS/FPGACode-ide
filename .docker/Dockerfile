@@ -37,8 +37,8 @@ ENV SHELL="/bin/bash"
 
 #download&install toolchain
 RUN apk add --no-cache make
-ADD getFPGAwars.sh /opt
-ADD prj/toolchain.txt /opt
+ADD script/getFPGAwars.sh /opt
+ADD toolchain.txt /opt
 RUN cd /opt/ && cat ./toolchain.txt | sed '/^#/d' \
                                     | xargs ./getFPGAwars.sh
 RUN cd /opt/ && ls *.tar.gz | while read i; do \
@@ -50,7 +50,7 @@ RUN cd /opt/ && ls *.tar.gz | while read i; do \
 RUN rm /opt/toolchain.txt
 
 #download&install tool
-ADD getGithub.sh /opt
+ADD script/getGithub.sh /opt
 RUN mkdir -p /opt/istyle/bin && cd /opt/istyle/bin \
                              && /opt/getGithub.sh MuratovAS/istyle-verilog-formatter istyle \
                              && chmod 775 istyle
@@ -58,7 +58,7 @@ RUN mkdir -p /opt/istyle/bin && cd /opt/istyle/bin \
 RUN mkdir -p /opt/vcd/bin && cd /opt/vcd/bin \
                              && /opt/getGithub.sh MuratovAS/simpleVCD vcd \
                              && chmod 775 vcd
-ADD vcdRun.sh /opt
+ADD script/vcdRun.sh /opt
 
 #conf
 RUN echo "export PATH=`echo /opt/*/bin | sed 's/ /:/g'`:$PATH" \
