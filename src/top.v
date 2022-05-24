@@ -1,3 +1,5 @@
+`include "src/pwm8b.v"
+
 module top
        (
            input CLK,
@@ -5,7 +7,7 @@ module top
            output LED2,
            output LED3,
            output LED4,
-           output LED5,
+           output LED5
        );
 
 reg en = 1;

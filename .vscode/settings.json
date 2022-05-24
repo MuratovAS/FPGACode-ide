@@ -1,0 +1,4 @@
+{
+    "verilog.linting.linter": "iverilog",
+    "verilog.ctags.path": "echo",
+}

@@ -1,3 +1,5 @@
+`include "src/pwm8b.v"
+
 `default_nettype none
 `define VCD_OUTPUT pwm8b
 `define DUMPSTR(x) `"x.vcd`"

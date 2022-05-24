@@ -2,61 +2,65 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Container: make",
+            "label": "PRJ: make all",
             "type": "shell",
-            "command": ".vscode/container.sh",
+            "command": "make",
             "args": [
-                "make"
+                "all"
             ],
             "problemMatcher": []
         },
         {
-            "label": "Container: make sim",
+            "label": "PRJ: make sim",
             "type": "shell",
-            "command": ".vscode/container.sh",
+            "command": "make",
             "args": [
-                "make",
                 "sim"
             ],
             "problemMatcher": []
         },
         {
-            "label": "Container: make flash",
+            "label": "PRJ: make flash",
             "type": "shell",
-            "command": ".vscode/container.sh",
+            "command": "make",
             "args": [
-                "make",
                 "flash"
             ],
             "problemMatcher": []
         },
         {
-            "label": "Container: make prog",
+            "label": "PRJ: make prog",
             "type": "shell",
-            "command": ".vscode/container.sh",
+            "command": "make",
             "args": [
-                "make",
                 "prog"
             ],
             "problemMatcher": []
         },
         {
-            "label": "Container: make clean",
+            "label": "PRJ: make clean",
             "type": "shell",
-            "command": ".vscode/container.sh",
+            "command": "make",
             "args": [
-                "make",
                 "clean"
             ],
             "problemMatcher": []
         },
         {
-            "label": "Container: make formatter",
+            "label": "PRJ: make formatter",
             "type": "shell",
-            "command": ".vscode/container.sh",
+            "command": "make",
             "args": [
-                "make",
                 "formatter"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "SYS: install toolchain",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "toolchain"
             ],
             "problemMatcher": []
         },

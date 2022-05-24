@@ -8,14 +8,21 @@ FREQ = 20
 SEED = 10
 PROGRAMMER = iceprog
 
+TOOLCHAIN_PATH = /opt/fpga
 BUILD_DIR = ./build
 SRC_DIR = ./src
-TB_DIR = ./tb
-TOP_FILE = ./top.v
 
-SRC_FILE := $(shell echo src/* | sed 's@[^ ]*_tb.v@@g')
-SRC_FILE := $(shell echo src/* | sed 's@[^ ]*_tb.v@@g')
-TB_FILE :=  $(shell echo src/* | sed 's@[^ ]*/top.v@@g')
+# ----------------------------------------------------------------------------------
+
+SRC_FILE := $(shell echo $(SRC_DIR)/top.v)
+TB_FILE :=  $(shell echo $(SRC_DIR)/*_tb.v)
+
+#Automatically search for files, allows you not to write "Include". Disconnected due to incompatibility with
+#SRC_FILE := $(shell echo $(SRC_DIR)/* | sed 's@[^ ]*_tb.v@@g')
+#TB_FILE :=  $(shell echo $(SRC_DIR)/* | sed 's@[^ ]*/top.v@@g')
+
+#Creates a temporary PATH.
+PATH := $(shell echo $$(readlink -f $(TOOLCHAIN_PATH))/*/bin | sed 's/ /:/g'):$(PATH)
 
 all: $(BUILD_DIR) $(BUILD_DIR)/$(PROJ).bin
 
@@ -42,11 +49,11 @@ $(BUILD_DIR)/%.rpt: $(BUILD_DIR)/%.asc
 sim: $(BUILD_DIR)/%.vcd
 
 $(BUILD_DIR)/%.vcd: $(BUILD_DIR)/$(PROJ).out
-	vvp -M /opt/toolchain-iverilog/lib/ivl -v $<
+	vvp -M $(shell echo $$(readlink -f $(TOOLCHAIN_PATH)))/toolchain-iverilog/lib/ivl -v $<
 	mv ./*.vcd $(BUILD_DIR)
 
 $(BUILD_DIR)/%.out: $(TB_FILE)
-	iverilog -B /opt/toolchain-iverilog/lib/ivl  -o $(BUILD_DIR)/$(PROJ).out $(TB_FILE)
+	iverilog -B $(shell echo $$(readlink -f $(TOOLCHAIN_PATH)))/toolchain-iverilog/lib/ivl  -o $(BUILD_DIR)/$(PROJ).out $(TB_FILE)
 
 
 flash: $(BUILD_DIR)/$(PROJ).bin
@@ -63,9 +70,12 @@ clean:
 formatter:
 	istyle  -t4 -b -o --pad=block */*.v
 
+toolchain:
+	sudo ./toolchain/install.sh $(TOOLCHAIN_PATH)
+
 #secondary needed or make will remove useful intermediate files
 .SECONDARY:
-.PHONY: all sim flash prog clean formatter
+.PHONY: all sim flash prog clean formatter toolchain
 
 # $@ The file name of the target of the rule.rule
 # $< first pre requisite
