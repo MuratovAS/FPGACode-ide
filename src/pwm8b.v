@@ -13,7 +13,6 @@ module pwm8b (input clk,
 		counter = 0;
 		value   = 255;
 	end
-	
 	always @(posedge clk)
 	begin
 		counter <= counter + 1;
@@ -21,6 +20,7 @@ module pwm8b (input clk,
 		if (en == 1'b1)
 		begin
 			value <= value_in;
-			end;
 		end
-		endmodule
+	end
+	
+endmodule
