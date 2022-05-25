@@ -1,5 +1,4 @@
 PROJ = pwm8b
-PIN_DEF = ./icebreaker.pcf
 
 PACKAGE = sg48
 DEVICE = up5k
@@ -8,9 +7,14 @@ FREQ = 20
 SEED = 10
 PROGRAMMER = iceprog
 
-TOOLCHAIN_PATH = /opt/fpga
-BUILD_DIR = ./build
+# ----------------------------------------------------------------------------------
+
+PIN_DEF = ./icebreaker.pcf
 SRC_DIR = ./src
+BUILD_DIR = ./build
+TOOLCHAIN_PATH = /opt/fpga
+
+FORMAT = "verilog-format"
 
 # ----------------------------------------------------------------------------------
 
@@ -26,8 +30,6 @@ TOOLCHAIN_PATH := $(shell echo $$(readlink -f $(TOOLCHAIN_PATH)))
 PATH := $(shell echo $(TOOLCHAIN_PATH)/*/bin | sed 's/ /:/g'):$(PATH)
 
 all: $(BUILD_DIR) $(BUILD_DIR)/$(PROJ).bin
-(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
 # rules for building the blif file
 $(BUILD_DIR)/%.json: $(SRC_FILE)
 	yosys -q -l $(BUILD_DIR)/build.log -p '$(SERIES) -top top -json $(BUILD_DIR)/$(PROJ).json; show -format dot -prefix $(BUILD_DIR)/$(PROJ)' $(SRC_FILE)
@@ -57,13 +59,15 @@ prog: $(BUILD_DIR)/$(PROJ).bin
 clean:
 	rm -f $(BUILD_DIR)/*
 	rm -f *.orig src/*.orig tb/*.orig
-formatter:
-	istyle  -t4 -b -o --pad=block */*.v
 
+formatter:
+	if [ $(FORMAT) == "istyle" ]; then istyle  -t4 -b -o --pad=block $(SRC_DIR)/*.v; fi
+	if [ $(FORMAT) == "verilog-format" ]; then find ./src/*.v | xargs -t -L1 java -jar ${TOOLCHAIN_PATH}/verilog-format/bin/verilog-format.jar -f ; fi
+	
 toolchain:
 	sudo ./toolchain/install.sh $(TOOLCHAIN_PATH)
-	sed -i 's@\(\"verilog.linting.path\":\)[^,]*@\1 "${TOOLCHAIN_PATH}/toolchain-iverilog/bin/"@' .vscode/settings.json 
-	sed -i 's@\(\"verilog.linting.iverilog.arguments\":\)[^,]*@\1 "-B ${TOOLCHAIN_PATH}/toolchain-iverilog/lib/ivl"@' .vscode/settings.json 
+	if [ -d ".vscode" ]; then sed -i 's@\(\"verilog.linting.path\":\)[^,]*@\1 "${TOOLCHAIN_PATH}/toolchain-iverilog/bin/"@' .vscode/settings.json; fi
+	if [ -d ".vscode" ]; then sed -i 's@\(\"verilog.linting.iverilog.arguments\":\)[^,]*@\1 "-B ${TOOLCHAIN_PATH}/toolchain-iverilog/lib/ivl"@' .vscode/settings.json; fi
 
 #secondary needed or make will remove useful intermediate files
 .SECONDARY:

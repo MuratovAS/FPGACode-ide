@@ -1,19 +1,18 @@
 #ICE40
-#toolchain-dfu
 toolchain-icesprog
-toolchain-iverilog
 toolchain-ice40
-toolchain-yosys
 
 #ECP5
 #toolchain-fujprog
-#toolchain-iverilog
 #toolchain-ecp5
-#toolchain-yosys
 
 #universal
 #toolchain-dfu
-#toolchain-fujprog
-#toolchain-icesprog
-#toolchain-iverilog
 #tools-oss-cad-suite
+toolchain-iverilog
+toolchain-yosys
+
+#other
+verilog-format
+#istyle
+#vcd
