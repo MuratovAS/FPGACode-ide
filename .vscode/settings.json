@@ -1,4 +1,5 @@
 {
     "verilog.linting.linter": "iverilog",
-    "verilog.ctags.path": "echo",
+    "verilog.linting.path": "/opt/fpga/toolchain-iverilog/bin/",
+    "verilog.linting.iverilog.arguments": "-B /opt/fpga/toolchain-iverilog/lib/ivl",
 }
