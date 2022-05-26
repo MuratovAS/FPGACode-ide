@@ -33,7 +33,7 @@ Next, you can establish the necessary expansion, this will increase the convenie
 Basic extensions:
 |Name           |Developer   |Description           |URL |
 |---------------|------------|----------------------|----|
-|Verilog-HDL    |mshr-h      |Highlight and lint    |[✅](https://https://open-vsx.org/extension/mshr-h/veriloghdl)[🔽](https://github.com/MuratovAS/vscode-verilog-hdl-support)|
+|Verilog-HDL    |mshr-h      |Highlight and lint    |[✅](https://open-vsx.org/extension/mshr-h/veriloghdl) [🔽](https://github.com/MuratovAS/vscode-verilog-hdl-support)|
 |Impulse        |toem-de     |VCD visualization     |[✅](https://open-vsx.org/extension/toem-de/impulse)|
 |DigitalJS      |yuyichao    |Interactive simulator |[✅](https://open-vsx.org/extension/yuyichao/digitaljs)|
 
