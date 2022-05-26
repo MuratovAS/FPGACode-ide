@@ -1,5 +1,7 @@
 # FPGACode-ide
 
+![](assets/2022-05-27-01-22-30.png)
+
 This repository contains a simple project for `Icebreaker fpga` built on `Makefile` and open `Toolchain`, which allows us to use `code` as a full -fledged development environment.
 
 As an editor of the code can be absolutely anything from `vim` to `vscode`, there is no binding to the editor. I am using `uncoded`. It is `*code*` that editor makes it possible to conveniently visualize the development process, due to extensions.
@@ -16,19 +18,14 @@ sudo apt install code #Any variety of VSCODE
 
 ## First start
 
-The first thing to do is create a directory for assembly
-```bash 
-mkdir -p build
-```
-
-It is also necessary to install `Toolchain`. Installation to the Directory `/opt/fpga`. The directory can be configured in `Makefile`.
+The first thing to do is to install `Toolchain`. Installation to the Directory `/opt/fpga`. The directory can be configured in `Makefile`.
 The list of established components is configured in `./toolchain/Toolchain.txt`
 ```bash
 make toolchain
 ```
-Next, you can establish the necessary expansion, this will increase the convenience of development.
+Next, you can establish the necessary expansion.
 
-It is worth noting that at the moment a modified version of the extension is used `Verilog-HDL`, it can be downloaded by a link in the form of `.VSX`. You can use the Origenal version, but this will require the addition of `toolchain` to the system `Path`
+It is worth noting that at the moment a modified version of the extension is used `Verilog-HDL`, it can be downloaded by a link in the form of `.vsx`. You can use the Origenal version, but this will require the addition of `toolchain` to the system `Path`
 
 ## Extensions for Code
 
@@ -60,6 +57,57 @@ make formatter  #Perform code formatting
 make toolchain  #Install assembly tools
 ```
 
-## The project structure
+## Project structure
 
-...
+- .vscode - Directory сonfiguration for vscode
+    - settings.json - Contains Linter settings
+    - tasks.json - Contains instructions for launching Makefile
+- build - Directory of assembly artifacts
+    - *.vcd - The file contains temporary diagrams (result of modeling)
+    - *.bin - The final firmware file
+- src - Directory of source files
+    - *.v - Source code
+    - *_tb.v - Test Bench
+    - top.v - Initial file
+- toolchain - Directory of scripts for the assembly of Toolchain
+- .verilog-format - Code style configuration file
+- *.pcf - Pin planner
+- Makefile - Assembly system
+- toolchain.txt - List of tools used
+
+## Turn on hot keys
+
+There was no simple way to reassign the keys for the working area. For this reason, a change in the global configuration will be required. This can be done by adding to the file `keybindings.json`
+
+```json
+{
+    "key": "alt+shift+a",
+    "command": "workbench.action.tasks.runTask",
+    "args": "PRJ: make all"
+},
+{
+    "key": "alt+shift+s",
+    "command": "workbench.action.tasks.runTask",
+    "args": "PRJ: make sim"
+},
+{
+    "key": "alt+shift+c",
+    "command": "workbench.action.tasks.runTask",
+    "args": "PRJ: make clean"
+},
+{
+    "key": "alt+shift+e",
+    "command": "workbench.action.tasks.runTask",
+    "args": "PRJ: make flash"
+},
+{
+    "key": "alt+shift+r",
+    "command": "workbench.action.tasks.runTask",
+    "args": "PRJ: make prog"
+},
+{
+    "key": "alt+shift+x",
+    "command": "workbench.action.tasks.runTask",
+    "args": "PRJ: make formatter"
+},
+```
