@@ -28,14 +28,16 @@ make toolchain
 ```
 Next, you can establish the necessary expansion, this will increase the convenience of development.
 
+It is worth noting that at the moment a modified version of the extension is used `Verilog-HDL`, it can be downloaded by a link in the form of `.VSX`. You can use the Origenal version, but this will require the addition of `toolchain` to the system `Path`
+
 ## Extensions for Code
 
 Basic extensions:
 |Name           |Developer   |Description           |URL |
-|---------------|------------|----------------------|----|
-|Verilog-HDL    |mshr-h      |Highlight and lint    |[✅](https://open-vsx.org/extension/mshr-h/veriloghdl) [🔽](https://github.com/MuratovAS/vscode-verilog-hdl-support)|
-|Impulse        |toem-de     |VCD visualization     |[✅](https://open-vsx.org/extension/toem-de/impulse)|
-|DigitalJS      |yuyichao    |Interactive simulator |[✅](https://open-vsx.org/extension/yuyichao/digitaljs)|
+|----------------|------------|----------------------|----|
+|Verilog-HDL(mod)|mshr-h      |Highlight and lint    |[🔽](https://github.com/MuratovAS/vscode-verilog-hdl-support)|
+|Impulse         |toem-de     |VCD visualization     |[✅](https://open-vsx.org/extension/toem-de/impulse)|
+|DigitalJS       |yuyichao    |Interactive simulator |[✅](https://open-vsx.org/extension/yuyichao/digitaljs)|
 
 Additional extensions:
 |Name             |Developer   |Description       |Notes                 |URL |
@@ -51,7 +53,7 @@ The commands can be executed manually in the terminal as well as through the `Ta
 ```bash
 make all        #Project assembly
 make sim        #Perform Testbench
-make flash       #Flash ROM
+make flash      #Flash ROM
 make prog       #Flash SRAM
 make clean      #Cleaning the assembly of the project
 make formatter  #Perform code formatting
