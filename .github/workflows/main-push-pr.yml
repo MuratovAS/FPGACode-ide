@@ -1,0 +1,33 @@
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  run:
+    name: Build project and testbench
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        id: toolchain-cache
+        with:
+          path: /opt/fpga
+          key: ${{ runner.os }}-${{ hashFiles('**/toolchain.txt, **/toolchain/*') }}
+      - name: Install toolchain
+        if: steps.toolchain-cache.outputs.cache-hit != 'true'
+        run: make toolchain
+      - name: Build project
+        run: make all
+      - name: Build testbench
+        run: make sim
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifact
+          path: build/*
