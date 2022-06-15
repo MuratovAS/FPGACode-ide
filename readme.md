@@ -25,16 +25,14 @@ make toolchain
 ```
 Next, you can establish the necessary expansion.
 
-It is worth noting that at the moment a modified version of the extension is used `Verilog-HDL`, it can be downloaded by a link in the form of `.vsx`. You can use the Origenal version, but this will require the addition of `toolchain` to the system `Path`
-
 ## Extensions for Code
 
 Basic extensions:
-|Name           |Developer   |Description           |URL |
-|----------------|------------|----------------------|----|
-|Verilog-HDL(mod)|mshr-h      |Highlight and lint    |[🔽](https://github.com/MuratovAS/vscode-verilog-hdl-support)|
-|Impulse         |toem-de     |VCD visualization     |[✅](https://open-vsx.org/extension/toem-de/impulse)|
-|DigitalJS       |yuyichao    |Interactive simulator |[✅](https://open-vsx.org/extension/yuyichao/digitaljs)|
+|Name               |Developer   |Description           |URL |
+|-------------------|------------|----------------------|----|
+|Verilog-HDL >=1.5.4|mshr-h      |Highlight and lint    |[🔽](https://github.com/MuratovAS/vscode-verilog-hdl-support)|
+|Impulse            |toem-de     |VCD visualization     |[✅](https://open-vsx.org/extension/toem-de/impulse)|
+|DigitalJS          |yuyichao    |Interactive simulator |[✅](https://open-vsx.org/extension/yuyichao/digitaljs)|
 
 Additional extensions:
 |Name             |Developer   |Description       |Notes                 |URL |
