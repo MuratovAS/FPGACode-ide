@@ -66,6 +66,7 @@ formatter:
 	
 toolchain:
 	chmod +x ./toolchain/*.sh
+	sudo rm -rf $(TOOLCHAIN_PATH)
 	sudo ./toolchain/install.sh $(TOOLCHAIN_PATH)
 	if [ -d ".vscode" ]; then sed -i 's@\(\"verilog.linting.path\":\)[^,]*@\1 "${TOOLCHAIN_PATH}/toolchain-iverilog/bin/"@' .vscode/settings.json; fi
 	if [ -d ".vscode" ]; then sed -i 's@\(\"verilog.linting.iverilog.arguments\":\)[^,]*@\1 "-B ${TOOLCHAIN_PATH}/toolchain-iverilog/lib/ivl"@' .vscode/settings.json; fi
