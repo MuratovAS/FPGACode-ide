@@ -2,4 +2,27 @@
     "verilog.linting.linter": "iverilog",
     "verilog.linting.path": "/opt/fpga/toolchain-iverilog/bin/",
     "verilog.linting.iverilog.arguments": "-B /opt/fpga/toolchain-iverilog/lib/ivl",
+    "VsCodeTaskButtons.showCounter": false,
+    "VsCodeTaskButtons.tasks": [
+        {
+            "label": "$(server-process) Make",
+            "task": "PRJ: make",
+        },
+        {
+            "label": "$(debug-console) Flash",
+            "task": "PRJ: flash",
+        },
+        {
+            "label": "$(test-view-icon) Simulator",
+            "task": "PRJ: simulator",
+        },
+        {
+            "label": "$(edit) Formatter",
+            "task": "PRJ: formatter",
+        },
+        {
+            "label": "$(notebook-delete-cell) Clean",
+            "task": "PRJ: clean",
+        },
+    ]
 }

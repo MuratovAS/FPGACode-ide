@@ -17,3 +17,4 @@ toolchain-yosys
 verilog-format
 #istyle
 #simplevcd
+#toolchain-riscv32i

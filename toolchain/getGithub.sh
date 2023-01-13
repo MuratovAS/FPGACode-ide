@@ -47,20 +47,23 @@ else
   printf "Detected platform: %s\n" "$platform"
 fi
 
-#if [ "x$platform" = "xwin64" ] || [ "x$platform" = "xwin32" ]; then
-#  extension='zip'
-#else
-#  extension='tar.gz'
-  extension=''
-#fi
+
 
 
 TAG=$(githubLatestTag $1)
 OUTPUT_FILE=`echo "$2" | sed -n '{s@.*/@@; p}'`
 printf "Package: %s\n" "$1"
 printf "Latest Version: %s\n" "$TAG"
-URL_FILE="https://github.com/$1/releases/download/$TAG/$OUTPUT_FILE-$platform-$TAG$extension"
-printf "Downloading $URL_FILE"
-curl -L "$URL_FILE" > "$2$extension"
-printf "\n"
+if [ "$2" = "toolchain-riscv32i.tar.gz" ]; then
+  URL_FILE="https://github.com/$1/releases/download/$TAG/riscv32i-$TAG.tar.gz"
+  printf "Downloading $URL_FILE"
+  curl -L "$URL_FILE" > "$2"
+  printf "\n"
+else
+  URL_FILE="https://github.com/$1/releases/download/$TAG/$OUTPUT_FILE-$platform-$TAG"
+  printf "Downloading $URL_FILE"
+  curl -L "$URL_FILE" > "$2"
+  printf "\n"
+fi
+
 

@@ -36,3 +36,8 @@ cd $TOOLCHAIN_PATH && cat $LOCAL_DIR/../toolchain.txt \
                   && unzip verilog-format-LINUX.zip \
                   && rm verilog-format-LINUX.zip verilog-format
 
+cd $TOOLCHAIN_PATH && cat $LOCAL_DIR/../toolchain.txt \
+                  | sed '/^#/d' | grep "toolchain-riscv32i" \
+                  && $LOCAL_DIR/getGithub.sh MuratovAS/toolchain-riscv32i toolchain-riscv32i.tar.gz \
+                  && tar -xvf toolchain-riscv32i.tar.gz \
+                  && rm toolchain-riscv32i.tar.gz

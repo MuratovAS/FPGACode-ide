@@ -3,39 +3,37 @@ PROJ = pwm8b
 PACKAGE = sg48
 DEVICE = up5k
 SERIES = synth_ice40
+ROUTE_ARG = -dsp
 FREQ = 20
 SEED = 10
 PROGRAMMER = iceprog
 
 # ----------------------------------------------------------------------------------
 
+FPGA_SRC = ./src
 PIN_DEF = ./icebreaker.pcf
-SRC_DIR = ./src
-BUILD_DIR = ./build
-TOOLCHAIN_PATH = /opt/fpga
-
-FORMAT = "verilog-format"
+TOP_FILE = $(shell echo $(FPGA_SRC)/top.v)
+TB_FILE :=  $(shell echo $(FPGA_SRC)/*_tb.v)
 
 # ----------------------------------------------------------------------------------
 
-SRC_FILE := $(shell echo $(SRC_DIR)/top.v)
-TB_FILE :=  $(shell echo $(SRC_DIR)/*_tb.v)
-
-#Automatically search for files, allows you not to write "Include". Disconnected due to incompatibility with linter
-#SRC_FILE := $(shell echo $(SRC_DIR)/* | sed 's@[^ ]*_tb.v@@g')
-#TB_FILE :=  $(shell echo $(SRC_DIR)/* | sed 's@[^ ]*/top.v@@g')
-
+FORMAT = "verilog-format"
+TOOLCHAIN_PATH = /opt/fpga
+BUILD_DIR = build
 #Creates a temporary PATH.
 TOOLCHAIN_PATH := $(shell echo $$(readlink -f $(TOOLCHAIN_PATH)))
 PATH := $(shell echo $(TOOLCHAIN_PATH)/*/bin | sed 's/ /:/g'):$(PATH)
 
-all: $(BUILD_DIR) $(BUILD_DIR)/$(PROJ).bin
+
+all: synthesis
+
+synthesis: $(BUILD_DIR) $(BUILD_DIR)/$(PROJ).bin
 # rules for building the blif file
-$(BUILD_DIR)/%.json: $(SRC_FILE)
-	yosys -q -l $(BUILD_DIR)/build.log -p '$(SERIES) -top top -json $(BUILD_DIR)/$(PROJ).json; show -format dot -prefix $(BUILD_DIR)/$(PROJ)' $(SRC_FILE)
+$(BUILD_DIR)/%.json: $(TOP_FILE) $(FPGA_SRC)/*.v
+	yosys -q -l $(BUILD_DIR)/build.log -p '$(SERIES) $(ROUTE_ARG) -top top -json $@; show -format dot -prefix $(BUILD_DIR)/$(PROJ)' $< 
 # asc
 $(BUILD_DIR)/%.asc: $(BUILD_DIR)/%.json $(PIN_DEF)
-	nextpnr-ice40 -q -l $(BUILD_DIR)/nextpnr.log --seed $(SEED) --freq $(FREQ) --package $(PACKAGE) --$(DEVICE) --asc $@ --pcf $(PIN_DEF) --json $<
+	nextpnr-ice40 -l $(BUILD_DIR)/nextpnr.log --seed $(SEED) --freq $(FREQ) --package $(PACKAGE) --$(DEVICE) --asc $@ --pcf $(PIN_DEF) --json $<
 # bin, for programming
 $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.asc
 	icepack $< $@
@@ -43,16 +41,19 @@ $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.asc
 $(BUILD_DIR)/%.rpt: $(BUILD_DIR)/%.asc
 	icetime -d $(DEVICE) -mtr $@ $<
 
-sim: $(BUILD_DIR)/%.vcd
+sim: $(BUILD_DIR) $(BUILD_DIR)/%.vcd
 $(BUILD_DIR)/%.vcd: $(BUILD_DIR)/$(PROJ).out
-	vvp -M $(TOOLCHAIN_PATH)/toolchain-iverilog/lib/ivl -v $<
+	vvp -v -M $(TOOLCHAIN_PATH)/toolchain-iverilog/lib/ivl $<
 	mv ./*.vcd $(BUILD_DIR)
-$(BUILD_DIR)/%.out: $(TB_FILE)
-	iverilog -B $(TOOLCHAIN_PATH)/toolchain-iverilog/lib/ivl  -o $(BUILD_DIR)/$(PROJ).out $(TB_FILE)
 
+$(BUILD_DIR)/%.out: $(TB_FILE)
+	iverilog -o $@ -B $(TOOLCHAIN_PATH)/toolchain-iverilog/lib/ivl $(TOOLCHAIN_PATH)/toolchain-yosys/share/yosys/ice40/cells_sim.v $(TB_FILE)
+
+# Flash memory firmware
 flash: $(BUILD_DIR)/$(PROJ).bin
 	$(PROGRAMMER) $<
 
+# Flash in SRAM
 prog: $(BUILD_DIR)/$(PROJ).bin
 	$(PROGRAMMER) -S $<
 
@@ -71,7 +72,7 @@ toolchain:
 
 #secondary needed or make will remove useful intermediate files
 .SECONDARY:
-.PHONY: all sim flash prog clean formatter toolchain
+.PHONY: all synthesis sim flash prog clean formatter toolchain
 
 # $@ The file name of the target of the rule.rule
 # $< first pre requisite

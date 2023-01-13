@@ -1,5 +1,7 @@
 # FPGACode-ide
 
+[**FPGACode-ide**](https://github.com/MuratovAS/FPGACode-ide) -> [IceSugar-riscv](https://github.com/MuratovAS/icesugar-riscv) -> *IceSugar-tv80.....*
+
 ![](assets/2022-05-27-01-22-30.png)
 
 This repository contains a simple project for `Icebreaker fpga` built on `Makefile` and open `Toolchain`, which allows us to use `code` as a full -fledged development environment.
@@ -32,14 +34,19 @@ Basic extensions:
 |-------------------|------------|----------------------|----|
 |Verilog-HDL >=1.5.4|mshr-h      |Highlight and lint    |[🔽](https://github.com/MuratovAS/vscode-verilog-hdl-support)|
 |Impulse            |toem-de     |VCD visualization     |[✅](https://open-vsx.org/extension/toem-de/impulse)|
-|DigitalJS          |yuyichao    |Interactive simulator |[✅](https://open-vsx.org/extension/yuyichao/digitaljs)|
 
 Additional extensions:
-|Name             |Developer   |Description       |Notes                 |URL |
-|-----------------|------------|------------------|----------------------|----|
-|TODO Highlight   |wayou       |Highlight notes   |Just a useful thing   |[✅](https://open-vsx.org/extension/wayou/vscode-todo-highlight)|
-|WaveTrace        |wavetrace   |VCD visualization |Analogue `Impulse`    |[⬇️](https://marketplace.visualstudio.com/items?itemName=wavetrace.wavetrace)|
-|Verilog Highlight|tzylee      |Highlight syntax  |Analogue `Verilog-HDL`|[⬇️](https://marketplace.visualstudio.com/items?itemName=tzylee.verilog-highlight)|
+|Name             |Developer    |Description       |Notes                 |URL |
+|-----------------|-------------|------------------|----------------------|----|
+|TODO Highlight   |wayou        |Highlight notes   |Just a useful thing   |[✅](https://open-vsx.org/extension/wayou/vscode-todo-highlight)|
+|Task Buttons     |spencerwmiles|Buttons in bar    |Just a useful thing   |[✅](https://github.com/spencerwmiles/vscode-task-buttons)|
+
+Analogue extensions:
+|Name             |Developer   |Description           |Notes                 |URL |
+|-----------------|------------|----------------------|----------------------|----|
+|DigitalJS        |yuyichao    |Interactive simulator |                      |[✅](https://open-vsx.org/extension/yuyichao/digitaljs)|
+|WaveTrace        |wavetrace   |VCD visualization     |Analogue `Impulse`    |[⬇️](https://marketplace.visualstudio.com/items?itemName=wavetrace.wavetrace)|
+|Verilog Highlight|tzylee      |Highlight syntax      |Analogue `Verilog-HDL`|[⬇️](https://marketplace.visualstudio.com/items?itemName=tzylee.verilog-highlight)|
 
 ## Usage
 
@@ -47,6 +54,7 @@ The commands can be executed manually in the terminal as well as through the `Ta
 
 ```bash
 make all        #Project assembly
+make synthesis  #Synthesis RTL
 make sim        #Perform Testbench
 make flash      #Flash ROM
 make prog       #Flash SRAM
@@ -81,31 +89,55 @@ There was no simple way to reassign the keys for the working area. For this reas
 {
     "key": "alt+shift+a",
     "command": "workbench.action.tasks.runTask",
-    "args": "PRJ: make all"
-},
-{
-    "key": "alt+shift+s",
-    "command": "workbench.action.tasks.runTask",
-    "args": "PRJ: make sim"
-},
-{
-    "key": "alt+shift+c",
-    "command": "workbench.action.tasks.runTask",
-    "args": "PRJ: make clean"
-},
-{
-    "key": "alt+shift+e",
-    "command": "workbench.action.tasks.runTask",
-    "args": "PRJ: make flash"
-},
-{
-    "key": "alt+shift+r",
-    "command": "workbench.action.tasks.runTask",
-    "args": "PRJ: make prog"
-},
-{
-    "key": "alt+shift+x",
-    "command": "workbench.action.tasks.runTask",
-    "args": "PRJ: make formatter"
+    "args": "PRJ: make"
 },
 ```
+
+## Permission for USB
+
+First you need to find out the `VendorID` and `ProductID` of our adapter. This can be done with the following command:
+~~~
+lsusb | grep UART
+~~~
+
+Example:
+~~~bash 
+ Bus 003 Device 011: ID 0403:6001 Future Technology Devices International, Ltd FT232 USB-Serial (UART) IC
+~~~
+
+Remember the values after the ID abbreviation, they will be useful to us later.
+
+Create a file in `/etc/udev/rules.d/`
+~~~bash
+sudo nano /etc/udev/rules.d/10-ft232.rules
+~~~
+
+As a name, it is convenient to indicate the name of the chip installed in the adapter. In my case it is `FT232`.
+
+Now we add content in the window that opens (we change `idVendor` and `idProduct`, we got these values in the previous paragraph):
+~~~bash
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", \
+    MODE:="0666", GROUP:="users",\
+    SYMLINK+="ft232_%n"
+~~~
+With this entry, we set write and read rights to the USB device `0403:6001` for ordinary users. We also tell udev to create a symbolic link to it called `ft232_xxx`.
+
+Restart udev.
+~~~bash
+sudo udevadm control --reload-rules
+~~~
+
+We check the rights to our device.
+~~~bash
+$ ls -l /dev/ | grep USB
+lrwxrwxrwx. 1 root root             7 янв 25 15:09 ft232_0 -> ttyUSB0
+crw-rw-rw-. 1 root users     188,   0 янв 25 15:09 ttyUSB0
+~~~
+
+## Plans for the future
+
+TODO: 
+ - Make IceSugar-tv80
+ - Documentation IceSugar-riscv
+ - Make a new toolchain manager
+ - Improve the testbench system

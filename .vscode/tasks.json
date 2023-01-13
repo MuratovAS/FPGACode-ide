@@ -2,16 +2,22 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "PRJ: make all",
+            "label": "PRJ: make",
+            "type": "shell",
+            "command": "make",
+            "problemMatcher": []
+        },
+        {
+            "label": "PRJ: synthesis",
             "type": "shell",
             "command": "make",
             "args": [
-                "all"
+                "synthesis"
             ],
             "problemMatcher": []
         },
         {
-            "label": "PRJ: make sim",
+            "label": "PRJ: simulator",
             "type": "shell",
             "command": "make",
             "args": [
@@ -20,7 +26,7 @@
             "problemMatcher": []
         },
         {
-            "label": "PRJ: make flash",
+            "label": "PRJ: flash",
             "type": "shell",
             "command": "make",
             "args": [
@@ -29,29 +35,38 @@
             "problemMatcher": []
         },
         {
-            "label": "PRJ: make prog",
-            "type": "shell",
-            "command": "make",
-            "args": [
-                "prog"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "PRJ: make clean",
-            "type": "shell",
-            "command": "make",
-            "args": [
-                "clean"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "PRJ: make formatter",
+            "label": "PRJ: formatter",
             "type": "shell",
             "command": "make",
             "args": [
                 "formatter"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "PRJ: build fw",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "build_fw"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "PRJ: flash fw",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "flash_fw"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "PRJ: clean",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "clean"
             ],
             "problemMatcher": []
         },
