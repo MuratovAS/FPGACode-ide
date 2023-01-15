@@ -1,6 +1,6 @@
 # FPGACode-ide
 
-[**FPGACode-ide**](https://github.com/MuratovAS/FPGACode-ide) -> [IceSugar-riscv](https://github.com/MuratovAS/icesugar-riscv) -> *IceSugar-tv80.....*
+[**FPGACode-ide**](https://github.com/MuratovAS/FPGACode-ide) -> [IceSugar-riscv](https://github.com/MuratovAS/icesugar-riscv) -> [IceSugar-tv80](https://github.com/MuratovAS/icesugar-z80)
 
 ![](assets/2022-05-27-01-22-30.png)
 
