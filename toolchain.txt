@@ -1,20 +1,19 @@
-#ICE40
-toolchain-ice40
-#ECP5
-#toolchain-ecp5
-
-#programmer
-toolchain-icesprog
-#toolchain-fujprog
-#toolchain-dfu
-
-#universal
-#tools-oss-cad-suite
-toolchain-iverilog
-toolchain-yosys
-
-#other
-verilog-format
-#istyle
-#simplevcd
-#toolchain-riscv32i
+###ICE40/ECP5
+FPGAwars/toolchain-ice40				toolchain-ice40-linux_x86_64-.*.tar.gz
+FPGAwars/toolchain-ecp5					toolchain-ecp5-linux_x86_64-.*.tar.gz
+###programmer
+FPGAwars/toolchain-icesprog				toolchain-icesprog-linux_x86_64-.*.tar.gz
+#FPGAwars/toolchain-fujprog				toolchain-fujprog-linux_x86_64-.*.tar.gz
+#FPGAwars/toolchain-dfu					toolchain-dfu-linux_x86_64-.*.tar.gz
+###universal
+#FPGAwars/tools-oss-cad-suite			tools-oss-cad-suite-linux_x86_64-.*.tar.gz
+FPGAwars/toolchain-iverilog				toolchain-iverilog-linux_x86_64-.*.tar.gz	toolchain-iverilog.tar.gz
+FPGAwars/toolchain-yosys				toolchain-yosys-linux_x86_64-.*.tar.gz		toolchain-yosys.tar.gz
+###other
+ericsonj/verilog-format					verilog-format.jar					verilog-format.jar
+#MuratovAS/istyle-verilog-formatter		istyle-x86_64-linux-gnu-.*			istyle-verilog-formatter
+#MuratovAS/simplevcd					vcd-x86_64-linux-gnu-.* 			simplevcd
+#MuratovAS/toolchain-riscv32i			riscv32i-.*.tar.gz					riscv32i.tar.gz
+#MuratovAS/toolchain-cc65				cc65-.*.tar.gz						cc65.tar.gz
+###external
+#toolchain-sdcc

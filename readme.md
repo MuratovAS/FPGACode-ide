@@ -1,6 +1,6 @@
 # FPGACode-ide
 
-[**FPGACode-ide**](https://github.com/MuratovAS/FPGACode-ide) -> [IceSugar-riscv](https://github.com/MuratovAS/icesugar-riscv) -> [IceSugar-tv80](https://github.com/MuratovAS/icesugar-z80)
+[**FPGACode-ide**](https://github.com/MuratovAS/FPGACode-ide) -> [IceSugar-riscv](https://github.com/MuratovAS/icesugar-riscv) -> [IceSugar-tv80](https://github.com/MuratovAS/icesugar-z80) -> [IceSugar-6502](https://github.com/MuratovAS/icesugar-6502)
 
 ![](assets/2022-05-27-01-22-30.png)
 
@@ -14,14 +14,14 @@ For example, consider installation on Ubuntu
 
 ```bash
 sudo apt install openjdk-8-jdk openjdk-8-jre #It is necessary for impulse and verilog-format
-sudo apt install curl unzip #It is necessary for installation toolchain
+sudo apt install curl jq #It is necessary for installation toolchain
 sudo apt install code #Any variety of VSCODE
 ```
 
 ## First start
 
-The first thing to do is to install `Toolchain`. Installation to the Directory `/opt/fpga`. The directory can be configured in `Makefile`.
-The list of established components is configured in `./toolchain/Toolchain.txt`
+The first thing to do is to install `toolchain`. Installation to the Directory `/opt/fpga`. The directory can be configured in `Makefile`.
+The list of established components is configured in `./toolchain.txt`
 ```bash
 make toolchain
 ```
@@ -137,7 +137,5 @@ crw-rw-rw-. 1 root users     188,   0 янв 25 15:09 ttyUSB0
 ## Plans for the future
 
 TODO: 
- - Make IceSugar-tv80
- - Documentation IceSugar-riscv
- - Make a new toolchain manager
+ - Make IceSugar-6502
  - Improve the testbench system

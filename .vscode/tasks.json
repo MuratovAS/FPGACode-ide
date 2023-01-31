@@ -44,24 +44,6 @@
             "problemMatcher": []
         },
         {
-            "label": "PRJ: build fw",
-            "type": "shell",
-            "command": "make",
-            "args": [
-                "build_fw"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "PRJ: flash fw",
-            "type": "shell",
-            "command": "make",
-            "args": [
-                "flash_fw"
-            ],
-            "problemMatcher": []
-        },
-        {
             "label": "PRJ: clean",
             "type": "shell",
             "command": "make",

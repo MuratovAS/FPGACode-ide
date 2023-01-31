@@ -18,7 +18,7 @@ jobs:
         id: toolchain-cache
         with:
           path: /opt/fpga
-          key: ${{ runner.os }}-${{ hashFiles('**/toolchain.txt, **/toolchain/*') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/toolchain.txt, **/Makefile') }}
       - name: Install toolchain
         if: steps.toolchain-cache.outputs.cache-hit != 'true'
         run: make toolchain

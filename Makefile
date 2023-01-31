@@ -61,15 +61,13 @@ clean:
 	rm -f $(BUILD_DIR)/*
 
 formatter:
-	if [ $(FORMAT) == "istyle" ]; then istyle  -t4 -b -o --pad=block $(SRC_DIR)/*.v; fi
-	if [ $(FORMAT) == "verilog-format" ]; then find ./src/*.v | xargs -t -L1 java -jar ${TOOLCHAIN_PATH}/verilog-format/bin/verilog-format.jar -s .verilog-format -f ; fi
+	if [ $(FORMAT) == "istyle" ]; then istyle-verilog-formatter  -t4 -b -o --pad=block $(FPGA_SRC)/*.v; fi
+	if [ $(FORMAT) == "verilog-format" ]; then find ./src/*.v | xargs -t -L1 java -jar ${TOOLCHAIN_PATH}/utils/bin/verilog-format.jar -s .verilog-format -f ; fi
 	
 toolchain:
-	chmod +x ./toolchain/*.sh
-	sudo rm -rf $(TOOLCHAIN_PATH)
-	sudo ./toolchain/install.sh $(TOOLCHAIN_PATH)
-	if [ -d ".vscode" ]; then sed -i 's@\(\"verilog.linting.path\":\)[^,]*@\1 "${TOOLCHAIN_PATH}/toolchain-iverilog/bin/"@' .vscode/settings.json; fi
-	if [ -d ".vscode" ]; then sed -i 's@\(\"verilog.linting.iverilog.arguments\":\)[^,]*@\1 "-B ${TOOLCHAIN_PATH}/toolchain-iverilog/lib/ivl"@' .vscode/settings.json; fi
+	curl https://raw.githubusercontent.com/MuratovAS/FPGACode-toolchain/main/toolchain.sh > ./toolchain.sh
+	chmod +x ./toolchain.sh
+	sudo ./toolchain.sh $(TOOLCHAIN_PATH)
 
 #secondary needed or make will remove useful intermediate files
 .SECONDARY:

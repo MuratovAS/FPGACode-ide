@@ -1,7 +1,7 @@
 {
     "verilog.linting.linter": "iverilog",
-    "verilog.linting.path": "/opt/fpga2/toolchain-iverilog/bin/",
-    "verilog.linting.iverilog.arguments": "-B /opt/fpga2/toolchain-iverilog/lib/ivl",
+    "verilog.linting.path": "/opt/fpga/toolchain-iverilog/bin/",
+    "verilog.linting.iverilog.arguments": "-B /opt/fpga/toolchain-iverilog/lib/ivl /opt/fpga/toolchain-yosys/share/yosys/ice40/cells_sim.v src/top.v",
     "VsCodeTaskButtons.showCounter": false,
     "VsCodeTaskButtons.tasks": [
         {
